@@ -10,7 +10,7 @@ void setupGui() {
   cp5 = new ControlP5(this);
   cp5.setFont(createFont("Courier", 16));
   
-  guiPos = new PVector(kinect.depthWidth()+90, 60);
+  guiPos = new PVector(kinect.depthWidth+90, 60);
   
   guiCpos = cp5.addSlider2D("chessPosition")
       .setLabel("Chessboard Position")
@@ -72,8 +72,8 @@ void setupGui() {
 void controlEvent(ControlEvent theControlEvent) {
   try {
     if (theControlEvent.isFrom("chessPosition")) {
-      cx = (int) map(guiCpos.arrayValue()[0], 0, 100, 0, pWidth);
-      cy = (int) map(guiCpos.arrayValue()[1], 0, 100, 0, pHeight);
+      cx = (int) map(guiCpos.getArrayValue()[0], 0, 100, 0, pWidth);    //used to be arrayValue()
+      cy = (int) map(guiCpos.getArrayValue()[1], 0, 100, 0, pHeight);
     }  
   } catch(Exception e) {
     println(e);
