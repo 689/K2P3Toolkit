@@ -1,5 +1,7 @@
 ##WIP: CURRENTLY CONVERTING FOR KINECT 2 + PROCESSING 3
 
+This is not currently intended for general use/distribution.
+
 #Kinect Projector Toolkit
 
 Processing library for calibrating a kinect and a projector together, such that projected image is automatically aligned to the physical space it is projecting onto, facilitating the projection of images onto moving bodies and surfaces.
