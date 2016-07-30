@@ -2,6 +2,8 @@
 Based on the work of Thomas Sanchez Lengeling, sort of.
 Color to depth
 */
+int pWidth = 800;
+int pHeight = 600; 
 
 import KinectPV2.*;
 import KinectProjectorToolkit.*;
@@ -9,7 +11,6 @@ import KinectProjectorToolkit.*;
 
 KinectPV2 kinect;
 KinectProjectorToolkit kpc;
-
 PVector[] depthMap;
 int [] depthZero;
 int cx, cy, cwidth;
@@ -19,20 +20,21 @@ int maxDepth;
 PImage depthToColorImg;
 
 void setup() {
-  size(1920, 1080);
+  size(pWidth, pHeight);
 
   kinect = new KinectPV2(this);
-  kpc = new KinectProjectorToolkit(this, kinect.WIDTHDepth, kinect.HEIGHTDepth);
+  kpc = new KinectProjectorToolkit(this, KinectPV2.WIDTHDepth, KinectPV2.HEIGHTDepth);
   kpc.loadCalibration("calibration.txt");
   
   kinect.enableDepthImg(true);
   kinect.enableColorImg(true);
   kinect.enablePointCloud(true);
+  kinect.activateRawDepth(true);
 
   kinect.init();
   
-  depthMap = getRealWorldTest();
-  kpc.setDepthMapRealWorld(depthMap);
+  depthMap = new PVector[KinectPV2.WIDTHDepth*KinectPV2.HEIGHTDepth];
+  
 }
 
 void draw() {
@@ -41,10 +43,11 @@ void draw() {
   print(maxDepth);
   colorMode(HSB, maxDepth, 100, 100);
   
-  depthMap = getRealWorldTest();  //MOD
+  depthMap = getRealWorldTest();
+  kpc.setDepthMapRealWorld(depthMap);
 
-  for (int i = 0; i < kinect.WIDTHDepth; i++) {
-    for (int j = 0; j < kinect.HEIGHTDepth; j++) {
+  for (int i = 0; i < KinectPV2.WIDTHDepth; i++) {
+    for (int j = 0; j < KinectPV2.HEIGHTDepth; j++) {
       PVector realWorldPoint = depthMap[KinectPV2.WIDTHDepth * i + j];  //fxn
  
       PVector projectorPoint = kpc.convertKinectToProjector(realWorldPoint);
@@ -58,18 +61,16 @@ void draw() {
 
 PVector[] getRealWorldTest()
 {
+  PVector[] protoDepthMap = new PVector[KinectPV2.WIDTHDepth*KinectPV2.HEIGHTDepth];
   int[] depth = kinect.getRawDepthData();
-  int skip = 1;
-  for (int x = 0; x < kinect.WIDTHDepth; x+=skip) {
-      for (int y = 0; y < kinect.HEIGHTDepth; y+=skip) {
-        int offset = x + y * kinect.WIDTHDepth;
-        //calculte the x, y, z camera position based on the depth information
+  for (int y = 0; y < KinectPV2.HEIGHTDepth; y++) {
+      for (int x = 0; x < KinectPV2.WIDTHDepth; x++) {
+        int offset = x + y * KinectPV2.WIDTHDepth;
         PVector point = depthToPointCloudPos(x, y, depth[offset]);
-        depthMap[kinect.WIDTHDepth * y + x] = point;
-//        println("depthmap: ", kinect.depthWidth * y + x);
+        protoDepthMap[offset] = point;
       }
     }
-    return depthMap;
+    return protoDepthMap;
 }
 
 //calculte the xyz camera position based on the depth data
