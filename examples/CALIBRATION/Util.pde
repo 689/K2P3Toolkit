@@ -1,18 +1,14 @@
 public class ChessboardFrame extends JFrame {
   public ChessboardFrame() {
-    //@REMOVE setBounds(displayWidth,0,pWidth,pHeight);
     ca = new ChessboardApplet();
-    //@ADD
     String[] args = {"Chessboard"};
     PApplet.runSketch(args,ca);
     
-    //@REMOVE add(ca);
     removeNotify(); 
     setUndecorated(true); 
     setAlwaysOnTop(false); 
     setResizable(false);  
     addNotify();     
-    //@REMOVE ca.init();
     show();
   }
 }
@@ -23,7 +19,6 @@ public class ChessboardApplet extends PApplet {
   }
   //@ADD START
   public void settings() {
-    //size(pWidth, pHeight);
     fullScreen(2);
   }
   public void draw() {
@@ -32,11 +27,6 @@ public class ChessboardApplet extends PApplet {
     fill(0);
     for (int j=0; j<4; j++) {
       for (int i=0; i<5; i++) {
-        /*@REMOVE
-        int x = int(x0 + map(i, 0, 5, 0, cwidth));
-        int y = int(y0 + map(j, 0, 4, 0, cheight));
-        */
-        //@ADD
         int x = int(cx + map(i, 0, 5, 0, cwidth));
         int y = int(cy + map(j, 0, 4, 0, cheight));
         
@@ -48,7 +38,6 @@ public class ChessboardApplet extends PApplet {
     if (calibrated)  
       ellipse(testPointP.x, testPointP.y, 20, 20);  
   }
-  //@ADD END
 }
 
 void saveCalibration(String filename) {
