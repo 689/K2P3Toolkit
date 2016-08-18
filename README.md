@@ -2,7 +2,7 @@
 
 Processing library for calibrating a Microsoft Kinect v2 (Kinect for Xbox One) and a projector together, such that projected image is automatically aligned to the physical space it is projecting onto, facilitating the projection of images onto moving bodies and surfaces.
 
-This toolkit was developed by [Gene Kogan](http://www.genekogan.com/) and adapted to work with the Kinect v2 and Processing 3 by [Braden Neufeld](https://github.com/bradenneufeld) and Nash Witkin. Also makes use of work by [Daniel Shiffman](shiffman.net/) and [Thomas Lengeling](http://codigogenerativo.com/).
+This toolkit was developed by [Gene Kogan](http://www.genekogan.com/) and adapted to work with the Kinect v2 and Processing 3 by [Braden Neufeld](https://github.com/bradenneufeld) and Nash Witkin. Also makes use of work by [Daniel Shiffman](http://shiffman.net/) and [Thomas Lengeling](http://codigogenerativo.com/).
 
 To see some applications of the software, see this [highlight video](http://vimeo.com/81914893) of a workshop applying the software to live dance.
 
@@ -74,7 +74,7 @@ Next, load your calibration file (replace `CALIBRATION_PATH` with the path to th
 	
 In a frame, update the Kinect and then send its real world depth map to the KinectProjectorToolkit object.
 
-	kpc.setDepthMapRealWorld(kinect.depthMapRealWorld()); 
+	kpc.setDepthMapRealWorld(depthMapRealWorld()); 
 
 Then, given a point from the real world depth map, you can obtain its pixel coordinate by running the `convertKinectToProjector()` method. The point can be, for example, the real world point of a tracked skeleton's hand. Make sure you are sampling from `depthMapRealWorld()` not `depthMap()`. So given real world PVector realWorldPoint, the projected coordinate is accessible via:
 
